@@ -1,0 +1,20 @@
+
+services:
+  api-merp-combat-dummy:
+    build: .
+    command: ./.docker/start.sh
+    container_name: api-merp-combat-dummy
+    ports:
+      - "3030:3030"
+    volumes:
+      - .:/home/node/api-merp-combat-dummy
+  
+  # db-merp-combat:
+  #   container_name: db-merp-combat
+  #   image: postgres:15.8-alpine3.20
+  #   ports:
+  #     - 5432:5432
+  #   environment:
+  #     POSTGRES_PASSWORD: "root"
+  #   volumes:
+  #     - .:/home/node/db-merp-combat
