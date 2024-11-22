@@ -1,6 +1,6 @@
-# include:
-#   - ../mysql/docker-compose.yaml
-#   - ../nginx/docker-compose.yaml
+include:
+  - ../mysql/docker-compose.yaml
+  - ../nginx/docker-compose.yaml
 
 services:
   api:
@@ -18,15 +18,9 @@ services:
     volumes:
       - .:/home/node/api
     depends_on:
-      - mysql
+        - mysql
 
   mysql:
-    image: mysql:8.0.30-debian
-    environment:
-      - MYSQL_DATABASE_USER=root
-      - MYSQL_ROOT_PASSWORD=root
-      - MYSQL_DATABASE_NAME=mysql
-    ports:
-      - 3306:3306
-    volumes:
-      - .:/home/node/api/mysql
+    extends:
+      file: ../mysql/docker-compose.yaml
+      service: mysql
