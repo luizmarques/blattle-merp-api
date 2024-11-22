@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { SequelizeModule } from '@nestjs/sequelize';
+import { Character } from '../character/entities/character.entity';
 
 @Module({
   imports: [
@@ -14,6 +15,7 @@ import { SequelizeModule } from '@nestjs/sequelize';
         database: configService.get<string>('DATABASE_NAME'),
         autoLoadModels: true,
         synchronize: true,
+        models: [Character],
       }),
       inject: [ConfigService],
     }),

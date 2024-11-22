@@ -87,7 +87,7 @@ export class CreateCharacterCollectionDto {
   featured: CreateCharacterDto[];
 
   @IsArray()
-  enimies: CreateCharacterDto[];
+  enemies: CreateCharacterDto[];
 
   @IsArray()
   players_characters: CreateCharacterDto[];

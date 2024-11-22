@@ -6,6 +6,8 @@ import {
   PrimaryKey,
   Table,
 } from 'sequelize-typescript';
+import { Entity } from '../../shared/entity';
+import { ValueObject } from '../../shared/value-object';
 
 export interface Stats {
   strength: number;
@@ -78,7 +80,7 @@ export interface Background {
   tableName: 'characters',
   timestamps: false,
 })
-export class Character extends Model {
+export class Character extends Model implements Entity {
   @PrimaryKey
   @Column({
     type: DataType.UUID,
@@ -160,4 +162,45 @@ export class Character extends Model {
     allowNull: false,
   })
   created_by: string;
+
+  get entity_id(): ValueObject {
+    class CharacterId extends ValueObject {
+      constructor(id: string) {
+        super();
+        this.id = id;
+      }
+      id: string;
+    }
+    return new CharacterId(this.character_id);
+  }
+
+  toJSON(): any {
+    return {
+      character_id: this.character_id,
+
+      name: this.name,
+
+      class: this.class,
+
+      race: this.race,
+
+      level: this.level,
+
+      stats: this.stats,
+
+      skills: this.skills,
+
+      equipment: this.equipment,
+
+      background: this.background,
+
+      image_url: this.image_url,
+
+      is_active: this.is_active,
+
+      created_at: this.created_at,
+
+      created_by: this.created_by,
+    };
+  }
 }

@@ -6,9 +6,13 @@ import {
   Param,
   Patch,
   Delete,
+  Query,
 } from '@nestjs/common';
-import { CharacterService } from './character.service';
-import { CreateCharacterCollectionDto } from './dto/create-character.dto';
+import { CharacterService, CharacterSearchParams } from './character.service';
+import {
+  CreateCharacterCollectionDto,
+  CreateCharacterDto,
+} from './dto/create-character.dto';
 import { UpdateCharacterDto } from './dto/update-character.dto';
 
 @Controller('characters')
@@ -16,17 +20,22 @@ export class CharacterController {
   constructor(private readonly characterService: CharacterService) {}
 
   @Post()
-  create(@Body() createCharacterDto: CreateCharacterCollectionDto) {
-    return this.characterService.create(createCharacterDto as any);
+  async create(@Body() data: CreateCharacterDto) {
+    return this.characterService.create(data);
   }
 
   @Post('many')
-  bulkCreate(@Body() createCharacterDto: CreateCharacterCollectionDto[]) {
+  async bulkCreate(@Body() createCharacterDto: CreateCharacterCollectionDto[]) {
     return this.characterService.bulkCreate(createCharacterDto);
   }
 
   @Get()
-  findAll() {
+  search(@Query() params: CharacterSearchParams) {
+    return this.characterService.search(params);
+  }
+
+  @Get('all')
+  async findAll() {
     return this.characterService.findAll();
   }
 
@@ -36,7 +45,7 @@ export class CharacterController {
   }
 
   @Patch(':id')
-  update(
+  async update(
     @Param('id') id: string,
     @Body() updateCharacterDto: UpdateCharacterDto,
   ) {
@@ -44,7 +53,7 @@ export class CharacterController {
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
+  async remove(@Param('id') id: string) {
     return this.characterService.remove(id);
   }
 }
